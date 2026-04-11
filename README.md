@@ -14,10 +14,10 @@
 - 🔍 **Search Any Topic** - Machine Learning, Climate Change, Python, History - you name it!
 - 🎯 **Adaptive Difficulty** - Questions adjust based on your performance
 - ⚡ **Speed Bonus System** - Answer faster to earn extra points
-- 🤖 **Smart Question Generation** - Fetches 20 questions from multiple web sources
+- 🤖 **Smart Question Generation** - Fetches 20 questions from multiple web sources 
 - 🏆 **Global Leaderboards** - Compete with learners worldwide
 - 📊 **Detailed Analytics** - Track your progress and improvement
-- 🎮 **Gamified Experience** - Level up, earn XP, unlock achievements
+- 🎮 **Gamified Experience** - Level up, earn XP, unlock achievements .
 - 😺 **Animated Character** - Interactive cat companion that reacts to your answers
 - 🔐 **User Authentication** - Secure login/registration system
 - 📱 **Fully Responsive** - Works perfectly on all devices
