@@ -1,0 +1,670 @@
+{% extends "base.html" %}
+
+{% block title %}Quiz Results - EchoQuest Pro{% endblock %}
+
+{% block content %}
+<div class="result-container-enhanced">
+    <div class="result-card-enhanced">
+        <!-- Header Section -->
+        <div class="result-header">
+            <div class="result-icon">{{ '🎉' if (score/(total*10))*100 >= 70 else '📚' if (score/(total*10))*100 >= 40 else '💪' }}</div>
+            <h1 class="result-title">
+                {% set percentage = (score/(total*10))*100 %}
+                {% if percentage >= 80 %}Perfect Score! 🏆
+                {% elif percentage >= 60 %}Great Job! 🌟
+                {% elif percentage >= 40 %}Good Effort! 📈
+                {% else %}Keep Learning! 💪{% endif %}
+            </h1>
+            <p class="result-subtitle">{{ topic }} • {{ username }}</p>
+        </div>
+
+        <!-- Score Circle -->
+        <div class="score-circle-container">
+            <div class="score-circle-large">
+                <svg viewBox="0 0 120 120">
+                    <circle cx="60" cy="60" r="54" fill="none" stroke="#e0e0e0" stroke-width="8"/>
+                    <circle cx="60" cy="60" r="54" fill="none" stroke="url(#gradient)" stroke-width="8" 
+                            stroke-dasharray="{{ (percentage/100)*339.292 }}, 339.292" 
+                            stroke-dashoffset="0" transform="rotate(-90 60 60)"/>
+                    <defs>
+                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#667eea"/>
+                            <stop offset="100%" style="stop-color:#764ba2"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <div class="score-circle-text">
+                    <div class="score-value">{{ score }}</div>
+                    <div class="score-total">/ {{ total * 10 }}</div>
+                    <div class="score-percent">{{ "%.1f"|format(percentage) }}%</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="result-stats-grid">
+            <div class="result-stat">
+                <div class="stat-icon">✅</div>
+                <div class="stat-value">{{ (score/10)|round(0)|int }}</div>
+                <div class="stat-label">Correct Answers</div>
+            </div>
+            <div class="result-stat">
+                <div class="stat-icon">❌</div>
+                <div class="stat-value">{{ total - (score/10)|round(0)|int }}</div>
+                <div class="stat-label">Wrong Answers</div>
+            </div>
+            <div class="result-stat">
+                <div class="stat-icon">⚡</div>
+                <div class="stat-value">{{ (score/10)|round(0)|int * 10 }}</div>
+                <div class="stat-label">Points Earned</div>
+            </div>
+            <div class="result-stat">
+                <div class="stat-icon">⭐</div>
+                <div class="stat-value">
+                    {% if percentage >= 90 %}S+
+                    {% elif percentage >= 80 %}S
+                    {% elif percentage >= 70 %}A
+                    {% elif percentage >= 60 %}B
+                    {% elif percentage >= 50 %}C
+                    {% elif percentage >= 40 %}D
+                    {% else %}F{% endif %}
+                </div>
+                <div class="stat-label">Grade</div>
+            </div>
+        </div>
+
+        <!-- Performance Message -->
+        <div class="performance-card">
+            <div class="performance-icon">
+                {% if percentage >= 90 %}🎓
+                {% elif percentage >= 70 %}🎯
+                {% elif percentage >= 50 %}📖
+                {% else %}🌱{% endif %}
+            </div>
+            <div class="performance-text">
+                <h3>
+                    {% if percentage >= 90 %}Expert Level!
+                    {% elif percentage >= 70 %}Great Knowledge!
+                    {% elif percentage >= 50 %}Good Foundation!
+                    {% else %}Room to Grow!{% endif %}
+                </h3>
+                <p>
+                    {% if percentage >= 90 %}You're a master of {{ topic }}! Your expertise is impressive!
+                    {% elif percentage >= 70 %}Excellent work! You have strong knowledge in {{ topic }}.
+                    {% elif percentage >= 50 %}Good effort! Keep practicing to become an expert!
+                    {% else %}Don't give up! Every quiz makes you smarter. Try again!{% endif %}
+                </p>
+            </div>
+        </div>
+
+        <!-- Breakdown Section -->
+        <div class="breakdown-section">
+            <h3>📊 Performance Breakdown</h3>
+            <div class="breakdown-bars">
+                <div class="breakdown-item">
+                    <span class="breakdown-label">Accuracy</span>
+                    <div class="breakdown-bar-bg">
+                        <div class="breakdown-bar-fill" style="width: {{ percentage }}%"></div>
+                    </div>
+                    <span class="breakdown-value">{{ "%.1f"|format(percentage) }}%</span>
+                </div>
+                <div class="breakdown-item">
+                    <span class="breakdown-label">Speed Bonus</span>
+                    <div class="breakdown-bar-bg">
+                        <div class="breakdown-bar-fill" style="width: {{ (score % 10) * 10 }}%"></div>
+                    </div>
+                    <span class="breakdown-value">{{ score % 10 }}/10</span>
+                </div>
+                <div class="breakdown-item">
+                    <span class="breakdown-label">Completion</span>
+                    <div class="breakdown-bar-bg">
+                        <div class="breakdown-bar-fill" style="width: 100%"></div>
+                    </div>
+                    <span class="breakdown-value">{{ total }}/{{ total }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Achievement Badges -->
+        <div class="achievements-earned">
+            <h3>🏅 Achievements Earned</h3>
+            <div class="badges-container">
+                {% if percentage >= 80 %}
+                <div class="badge" title="Perfect Score">
+                    <div class="badge-icon">🏆</div>
+                    <div class="badge-name">Master</div>
+                </div>
+                {% endif %}
+                {% if score >= 150 %}
+                <div class="badge" title="High Scorer">
+                    <div class="badge-icon">💯</div>
+                    <div class="badge-name">High Scorer</div>
+                </div>
+                {% endif %}
+                {% if (score/10)|round(0)|int >= 15 %}
+                <div class="badge" title="Accuracy Expert">
+                    <div class="badge-icon">🎯</div>
+                    <div class="badge-name">Accurate</div>
+                </div>
+                {% endif %}
+                {% if total >= 20 %}
+                <div class="badge" title="Completed">
+                    <div class="badge-icon">✅</div>
+                    <div class="badge-name">Finisher</div>
+                </div>
+                {% endif %}
+                {% if percentage < 50 %}
+                <div class="badge" title="Dedicated Learner">
+                    <div class="badge-icon">🌱</div>
+                    <div class="badge-name">Learner</div>
+                </div>
+                {% endif %}
+                <div class="badge" title="Quiz Taker">
+                    <div class="badge-icon">📚</div>
+                    <div class="badge-name">Participant</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- XP & Level Up -->
+        <div class="xp-card">
+            <div class="xp-icon">⭐</div>
+            <div class="xp-content">
+                <div class="xp-title">XP Earned</div>
+                <div class="xp-value">+{{ score }}</div>
+                <div class="xp-progress">
+                    <div class="xp-progress-bar" style="width: {{ (score % 100) }}%"></div>
+                </div>
+                <div class="xp-message">
+                    {% if score >= 150 %}Level Up! 🎉
+                    {% elif score >= 100 %}Almost there! 📈
+                    {% else %}Keep going! 💪{% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="result-actions">
+            <a href="{{ url_for('search_topic') }}" class="action-btn primary">
+                🔄 Play Again
+            </a>
+            <a href="{{ url_for('leaderboard') }}?topic={{ topic }}" class="action-btn secondary">
+                🏆 View Leaderboard
+            </a>
+            <a href="{{ url_for('dashboard') }}" class="action-btn secondary">
+                📊 Dashboard
+            </a>
+        </div>
+
+        <!-- Share Section -->
+        <div class="share-section-mini">
+            <p>Share your achievement!</p>
+            <div class="share-buttons-mini">
+                <button onclick="shareResult('twitter')" class="share-icon">🐦</button>
+                <button onclick="shareResult('facebook')" class="share-icon">📘</button>
+                <button onclick="copyResult()" class="share-icon">🔗</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Animated Character -->
+    <div class="animated-character result-character">
+        <div class="character-body">
+            <div class="character-face">
+                {% if percentage >= 80 %}🎉😺
+                {% elif percentage >= 50 %}😺👍
+                {% else %}😿💪{% endif %}
+            </div>
+            <div class="character-legs">
+                <div class="leg leg-left"></div>
+                <div class="leg leg-right"></div>
+            </div>
+        </div>
+        <div class="speech-bubble">
+            {% if percentage >= 80 %}Amazing score! 🎉
+            {% elif percentage >= 50 %}Good job! Keep it up! 👍
+            {% else %}Try again! You'll improve! 💪{% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+    function shareResult(platform) {
+        const text = `I scored ${{{ score }}}/{{ total * 10 }} ({{ "%.1f"|format((score/(total*10))*100) }}%) on ${window.location.origin} EchoQuest Pro! Can you beat my score? 🎯`;
+        const url = window.location.origin + '/leaderboard';
+        
+        if (platform === 'twitter') {
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
+        } else if (platform === 'facebook') {
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(text)}`, '_blank');
+        }
+    }
+    
+    function copyResult() {
+        const text = `I scored ${ {{ score }} }/${ {{ total * 10 }} } on EchoQuest Pro! Check it out: ${window.location.origin}`;
+        navigator.clipboard.writeText(text);
+        alert('Result copied to clipboard! 📋');
+    }
+    
+    // Animate on load
+    document.addEventListener('DOMContentLoaded', () => {
+        // Animate score circle
+        const circle = document.querySelector('.score-circle-large svg circle:last-child');
+        if (circle) {
+            const length = circle.getTotalLength();
+            circle.style.strokeDasharray = length;
+            circle.style.strokeDashoffset = length;
+            setTimeout(() => {
+                circle.style.transition = 'stroke-dashoffset 2s ease';
+                circle.style.strokeDashoffset = '0';
+            }, 100);
+        }
+        
+        // Animate stats
+        document.querySelectorAll('.result-stat').forEach((stat, i) => {
+            stat.style.opacity = '0';
+            stat.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                stat.style.transition = 'all 0.5s ease';
+                stat.style.opacity = '1';
+                stat.style.transform = 'translateY(0)';
+            }, i * 100);
+        });
+        
+        // Confetti for good scores
+        {% if percentage >= 70 %}
+        for (let i = 0; i < 50; i++) {
+            setTimeout(() => createConfetti(), i * 50);
+        }
+        {% endif %}
+    });
+    
+    function createConfetti() {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + '%';
+        confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+        confetti.style.width = Math.random() * 10 + 5 + 'px';
+        confetti.style.height = Math.random() * 10 + 5 + 'px';
+        confetti.style.animationDelay = Math.random() * 2 + 's';
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 3000);
+    }
+</script>
+
+<style>
+    .result-container-enhanced {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+    }
+    
+    .result-card-enhanced {
+        background: white;
+        border-radius: 30px;
+        padding: 2rem;
+        max-width: 700px;
+        width: 100%;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        animation: slideIn 0.5s ease;
+    }
+    
+    .result-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    
+    .result-icon {
+        font-size: 4rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .result-title {
+        font-size: 1.8rem;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-bottom: 0.5rem;
+    }
+    
+    .result-subtitle {
+        color: #666;
+    }
+    
+    .score-circle-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 2rem;
+    }
+    
+    .score-circle-large {
+        position: relative;
+        width: 180px;
+        height: 180px;
+    }
+    
+    .score-circle-large svg {
+        width: 100%;
+        height: 100%;
+        transform: rotate(-90deg);
+    }
+    
+    .score-circle-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+    }
+    
+    .score-value {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #667eea;
+    }
+    
+    .score-total {
+        font-size: 0.8rem;
+        color: #666;
+    }
+    
+    .score-percent {
+        font-size: 0.9rem;
+        font-weight: bold;
+        color: #764ba2;
+    }
+    
+    .result-stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    .result-stat {
+        text-align: center;
+        padding: 1rem;
+        background: #f8f9fa;
+        border-radius: 15px;
+        transition: all 0.3s;
+    }
+    
+    .result-stat:hover {
+        transform: translateY(-3px);
+    }
+    
+    .stat-icon {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .stat-value {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #667eea;
+    }
+    
+    .stat-label {
+        font-size: 0.8rem;
+        color: #666;
+    }
+    
+    .performance-card {
+        background: linear-gradient(135deg, #667eea15, #764ba215);
+        padding: 1.5rem;
+        border-radius: 20px;
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    .performance-icon {
+        font-size: 3rem;
+    }
+    
+    .performance-text h3 {
+        margin-bottom: 0.5rem;
+        color: #333;
+    }
+    
+    .performance-text p {
+        color: #666;
+        line-height: 1.5;
+    }
+    
+    .breakdown-section {
+        margin-bottom: 2rem;
+    }
+    
+    .breakdown-section h3 {
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+    }
+    
+    .breakdown-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .breakdown-label {
+        width: 80px;
+        font-size: 0.9rem;
+        color: #666;
+    }
+    
+    .breakdown-bar-bg {
+        flex: 1;
+        height: 8px;
+        background: #e0e0e0;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+    
+    .breakdown-bar-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #667eea, #764ba2);
+        border-radius: 4px;
+        transition: width 1s ease;
+    }
+    
+    .breakdown-value {
+        width: 45px;
+        font-size: 0.9rem;
+        font-weight: bold;
+        color: #667eea;
+    }
+    
+    .achievements-earned {
+        margin-bottom: 2rem;
+    }
+    
+    .achievements-earned h3 {
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+    }
+    
+    .badges-container {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+    
+    .badge {
+        text-align: center;
+        padding: 0.5rem;
+        background: #f8f9fa;
+        border-radius: 10px;
+        min-width: 70px;
+        transition: all 0.3s;
+    }
+    
+    .badge:hover {
+        transform: scale(1.05);
+    }
+    
+    .badge-icon {
+        font-size: 1.5rem;
+        margin-bottom: 0.25rem;
+    }
+    
+    .badge-name {
+        font-size: 0.7rem;
+        color: #666;
+    }
+    
+    .xp-card {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        padding: 1rem;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        color: white;
+    }
+    
+    .xp-icon {
+        font-size: 2rem;
+    }
+    
+    .xp-content {
+        flex: 1;
+    }
+    
+    .xp-title {
+        font-size: 0.8rem;
+        opacity: 0.9;
+    }
+    
+    .xp-value {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+    
+    .xp-progress {
+        height: 4px;
+        background: rgba(255,255,255,0.3);
+        border-radius: 2px;
+        margin-top: 0.5rem;
+        overflow: hidden;
+    }
+    
+    .xp-progress-bar {
+        height: 100%;
+        background: #FFD700;
+        border-radius: 2px;
+        transition: width 1s ease;
+    }
+    
+    .xp-message {
+        font-size: 0.8rem;
+        margin-top: 0.5rem;
+        opacity: 0.9;
+    }
+    
+    .result-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 1.5rem;
+    }
+    
+    .action-btn {
+        padding: 0.75rem 1.5rem;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: all 0.3s;
+    }
+    
+    .action-btn.primary {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+    }
+    
+    .action-btn.secondary {
+        background: #f8f9fa;
+        color: #667eea;
+        border: 2px solid #667eea;
+    }
+    
+    .action-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    .share-section-mini {
+        text-align: center;
+        padding-top: 1rem;
+        border-top: 1px solid #e0e0e0;
+    }
+    
+    .share-section-mini p {
+        font-size: 0.8rem;
+        color: #666;
+        margin-bottom: 0.5rem;
+    }
+    
+    .share-buttons-mini {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+    }
+    
+    .share-icon {
+        width: 35px;
+        height: 35px;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 1.2rem;
+        transition: all 0.3s;
+        background: #f0f0f0;
+    }
+    
+    .share-icon:hover {
+        transform: translateY(-2px);
+    }
+    
+    .result-character {
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @media (max-width: 600px) {
+        .result-card-enhanced {
+            padding: 1.5rem;
+        }
+        
+        .result-stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .result-title {
+            font-size: 1.3rem;
+        }
+        
+        .action-btn {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+    }
+</style>
+{% endblock %}

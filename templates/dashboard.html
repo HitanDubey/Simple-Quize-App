@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - EchoQuest Pro{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <div class="welcome-section">
+            <h1 class="glow-text">Welcome, {{ current_user.username }}! 👋</h1>
+            <p>Your quiz journey continues...</p>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-value">{{ stats.total_quizzes or 0 }}</div>
+                <div class="stat-label">Quizzes Taken</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🏆</div>
+                <div class="stat-value">{{ stats.total_score or 0 }}</div>
+                <div class="stat-label">Total Score</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⭐</div>
+                <div class="stat-value">{{ current_user.level }}</div>
+                <div class="stat-label">Level</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🎯</div>
+                <div class="stat-value">{{ current_user.xp }}</div>
+                <div class="stat-label">XP Points</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="dashboard-content">
+        <div class="dashboard-section">
+            <h2>📝 Recent Quizzes</h2>
+            <div class="recent-quizzes">
+                {% if recent_quizzes %}
+                    {% for quiz in recent_quizzes %}
+                    <div class="quiz-card slide-in">
+                        <div class="quiz-topic">{{ quiz.topic }}</div>
+                        <div class="quiz-score">Score: {{ quiz.score }}/{{ quiz.total_questions * 10 }}</div>
+                        <div class="quiz-date">{{ quiz.completed_at[:10] }}</div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-state">
+                        <p>No quizzes taken yet!</p>
+                        <a href="{{ url_for('search_topic') }}" class="btn-primary">Start Your First Quiz 🚀</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="dashboard-section">
+            <h2>🔥 Favorite Topics</h2>
+            <div class="favorite-topics">
+                {% if favorite_topics %}
+                    {% for topic in favorite_topics %}
+                    <div class="topic-card">
+                        <div class="topic-name">{{ topic.topic }}</div>
+                        <div class="topic-stats">Played {{ topic.times_played }} times</div>
+                        <div class="topic-score">Avg: {{ "%.1f"|format(topic.avg_score) }}%</div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p>Complete quizzes to see your favorite topics!</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="quick-action">
+        <a href="{{ url_for('search_topic') }}" class="play-btn pulse">🎮 Play New Quiz</a>
+    </div>
+</div>
+
+<!-- Animated Character -->
+<div class="animated-character character-dashboard">
+    <div class="character-body">
+        <div class="character-face">🐱</div>
+        <div class="character-legs">
+            <div class="leg leg-left"></div>
+            <div class="leg leg-right"></div>
+        </div>
+    </div>
+    <div class="speech-bubble">Keep learning! 📚</div>
+</div>
+{% endblock %}

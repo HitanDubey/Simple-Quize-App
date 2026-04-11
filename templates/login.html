@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Login - EchoQuest Pro{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card floating">
+        <div class="auth-header">
+            <div class="auth-icon">🔐</div>
+            <h1>Welcome Back!</h1>
+            <p>Login to continue your quiz journey</p>
+        </div>
+        
+        {% if error %}
+        <div class="error-message shake">
+            {{ error }}
+        </div>
+        {% endif %}
+        
+        <form method="POST" class="auth-form">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required 
+                       placeholder="Enter your username" class="form-input">
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required 
+                       placeholder="Enter your password" class="form-input">
+            </div>
+            
+            <button type="submit" class="auth-btn">Login 🚀</button>
+        </form>
+        
+        <div class="auth-footer">
+            <p>Don't have an account? <a href="{{ url_for('register') }}">Sign Up</a></p>
+        </div>
+    </div>
+    
+    <!-- Animated Character -->
+    <div class="animated-character character-login">
+        <div class="character-body">
+            <div class="character-face">😺</div>
+            <div class="character-legs">
+                <div class="leg leg-left"></div>
+                <div class="leg leg-right"></div>
+            </div>
+        </div>
+        <div class="speech-bubble">Ready to play? 🎮</div>
+    </div>
+</div>
+{% endblock %}

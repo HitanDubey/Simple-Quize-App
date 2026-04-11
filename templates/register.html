@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Sign Up - EchoQuest Pro{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card floating">
+        <div class="auth-header">
+            <div class="auth-icon">✨</div>
+            <h1>Create Account</h1>
+            <p>Join the EchoQuest community!</p>
+        </div>
+        
+        {% if error %}
+        <div class="error-message shake">{{ error }}</div>
+        {% endif %}
+        
+        {% if errors %}
+            {% for error in errors %}
+            <div class="error-message shake">{{ error }}</div>
+            {% endfor %}
+        {% endif %}
+        
+        <form method="POST" class="auth-form">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required 
+                       placeholder="Choose a username" class="form-input">
+                <small>At least 3 characters, letters and numbers only</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required 
+                       placeholder="your@email.com" class="form-input">
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required 
+                       placeholder="Create a password" class="form-input">
+                <small>At least 6 characters</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="confirm_password">Confirm Password</label>
+                <input type="password" id="confirm_password" name="confirm_password" required 
+                       placeholder="Confirm your password" class="form-input">
+            </div>
+            
+            <button type="submit" class="auth-btn">Sign Up 🎉</button>
+        </form>
+        
+        <div class="auth-footer">
+            <p>Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+        </div>
+    </div>
+    
+    <!-- Animated Character -->
+    <div class="animated-character character-register">
+        <div class="character-body">
+            <div class="character-face">😸</div>
+            <div class="character-legs">
+                <div class="leg leg-left"></div>
+                <div class="leg leg-right"></div>
+            </div>
+        </div>
+        <div class="speech-bubble">Join the fun! 🎯</div>
+    </div>
+</div>
+{% endblock %}

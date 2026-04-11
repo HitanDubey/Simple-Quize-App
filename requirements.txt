@@ -1,0 +1,34 @@
+# Core Framework
+Flask==2.3.3
+Flask-Login==0.6.2
+Flask-Bcrypt==1.0.1
+
+# Web Scraping & APIs
+requests==2.31.0
+beautifulsoup4==4.12.2
+lxml==4.9.3
+googlesearch-python==1.2.3
+wikipedia-api==0.5.4
+html5lib==1.1
+
+# Database
+sqlite3
+
+# Authentication & Security
+email-validator==2.1.0
+bcrypt==4.1.0
+itsdangerous==2.1.2
+
+# Utilities
+python-dotenv==1.0.0
+click==8.1.7
+colorama==0.4.6
+
+# Optional but recommended for better performance
+# redis==5.0.1  # Uncomment if using Redis for caching
+# gunicorn==21.2.0  # Uncomment for production deployment
+
+# Development tools (optional)
+# flask-debugtoolbar==0.13.1
+# pytest==7.4.3
+# pytest-flask==1.2.0

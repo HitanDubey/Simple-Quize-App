@@ -1,0 +1,483 @@
+{% extends "base.html" %}
+
+{% block title %}Search Topic - EchoQuest Pro{% endblock %}
+
+{% block content %}
+<div class="search-container-enhanced">
+    <div class="search-hero">
+        <div class="search-icon">🔍</div>
+        <h1 class="search-title">What do you want to learn?</h1>
+        <p class="search-subtitle">Search any topic and get 20 adaptive questions instantly!</p>
+        
+        <form method="POST" action="{{ url_for('search_topic') }}" class="search-form">
+            <div class="search-input-wrapper">
+                <input type="text" 
+                       name="topic" 
+                       id="topic-search" 
+                       class="search-input-enhanced" 
+                       placeholder="e.g., Machine Learning, Python, Climate Change, Space..."
+                       autocomplete="off"
+                       required>
+                <button type="submit" class="search-button">
+                    <span>🚀 Start Quiz</span>
+                </button>
+            </div>
+        </form>
+        
+        <div class="search-suggestions" id="suggestions"></div>
+    </div>
+
+    <div class="popular-topics-enhanced">
+        <h3>🔥 Popular Topics This Week</h3>
+        <div class="topics-cloud" id="topics-cloud">
+            <div class="loading-spinner">Loading popular topics...</div>
+        </div>
+    </div>
+
+    <div class="topic-categories">
+        <div class="category">
+            <div class="category-icon">💻</div>
+            <h4>Technology</h4>
+            <div class="category-topics">
+                <span>Python</span>
+                <span>JavaScript</span>
+                <span>React</span>
+                <span>Django</span>
+                <span>SQL</span>
+            </div>
+        </div>
+        
+        <div class="category">
+            <div class="category-icon">🔬</div>
+            <h4>Science</h4>
+            <div class="category-topics">
+                <span>Physics</span>
+                <span>Chemistry</span>
+                <span>Biology</span>
+                <span>Astronomy</span>
+                <span>Genetics</span>
+            </div>
+        </div>
+        
+        <div class="category">
+            <div class="category-icon">🌍</div>
+            <h4>Environment</h4>
+            <div class="category-topics">
+                <span>Climate Change</span>
+                <span>Renewable Energy</span>
+                <span>Conservation</span>
+                <span>Pollution</span>
+                <span>Sustainability</span>
+            </div>
+        </div>
+        
+        <div class="category">
+            <div class="category-icon">📚</div>
+            <h4>Humanities</h4>
+            <div class="category-topics">
+                <span>History</span>
+                <span>Philosophy</span>
+                <span>Literature</span>
+                <span>Art History</span>
+                <span>Psychology</span>
+            </div>
+        </div>
+        
+        <div class="category">
+            <div class="category-icon">🤖</div>
+            <h4>AI & ML</h4>
+            <div class="category-topics">
+                <span>Machine Learning</span>
+                <span>Deep Learning</span>
+                <span>Neural Networks</span>
+                <span>NLP</span>
+                <span>Computer Vision</span>
+            </div>
+        </div>
+        
+        <div class="category">
+            <div class="category-icon">📊</div>
+            <h4>Data Science</h4>
+            <div class="category-topics">
+                <span>Statistics</span>
+                <span>Data Analysis</span>
+                <span>Pandas</span>
+                <span>Tableau</span>
+                <span>Big Data</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="search-tips">
+        <div class="tip">
+            <div class="tip-icon">💡</div>
+            <div class="tip-text">Be specific for better questions! "Python Programming" > "Python"</div>
+        </div>
+        <div class="tip">
+            <div class="tip-icon">⚡</div>
+            <div class="tip-text">Speed bonus points for quick answers!</div>
+        </div>
+        <div class="tip">
+            <div class="tip-icon">🏆</div>
+            <div class="tip-text">Compete on leaderboards for each topic!</div>
+        </div>
+    </div>
+</div>
+
+<!-- Animated Character -->
+<div class="animated-character character-search">
+    <div class="character-body">
+        <div class="character-face">😺</div>
+        <div class="character-legs">
+            <div class="leg leg-left"></div>
+            <div class="leg leg-right"></div>
+        </div>
+    </div>
+    <div class="speech-bubble">Search any topic! 📚</div>
+</div>
+
+<script>
+    // Load popular topics
+    fetch('/popular_topics')
+        .then(response => response.json())
+        .then(topics => {
+            const container = document.getElementById('topics-cloud');
+            if (topics && topics.length > 0) {
+                container.innerHTML = topics.map(topic => `
+                    <span class="topic-tag" onclick="selectTopic('${escapeHtml(topic.topic_name)}')">
+                        ${escapeHtml(topic.topic_name)} (${topic.search_count})
+                    </span>
+                `).join('');
+            } else {
+                container.innerHTML = '<div class="info-message">No popular topics yet. Be the first to search!</div>';
+            }
+        })
+        .catch(error => {
+            console.error('Error loading topics:', error);
+            document.getElementById('topics-cloud').innerHTML = '<div class="error-message">Unable to load topics</div>';
+        });
+
+    // Search suggestions
+    const suggestions = [
+        'Machine Learning', 'Artificial Intelligence', 'Deep Learning', 'Neural Networks',
+        'Python Programming', 'JavaScript', 'React Framework', 'Django Web Framework',
+        'Climate Change', 'Global Warming', 'Renewable Energy', 'Solar Power',
+        'Space Exploration', 'Astronomy', 'Black Holes', 'Mars Colonization',
+        'World History', 'Ancient Civilizations', 'World War II', 'Cold War',
+        'Data Science', 'Big Data Analytics', 'Data Visualization', 'Statistics',
+        'Cybersecurity', 'Ethical Hacking', 'Network Security', 'Cryptography',
+        'Web Development', 'Mobile Development', 'Cloud Computing', 'DevOps'
+    ];
+    
+    const searchInput = document.getElementById('topic-search');
+    const suggestionsDiv = document.getElementById('suggestions');
+    let currentSuggestions = [];
+    
+    searchInput.addEventListener('input', function() {
+        const value = this.value.toLowerCase();
+        if (value.length < 2) {
+            suggestionsDiv.style.display = 'none';
+            return;
+        }
+        
+        const matches = suggestions.filter(s => s.toLowerCase().includes(value)).slice(0, 8);
+        
+        if (matches.length > 0) {
+            suggestionsDiv.innerHTML = matches.map(match => `
+                <div class="suggestion-item" onclick="selectTopic('${escapeHtml(match)}')">
+                    🔍 ${escapeHtml(match)}
+                </div>
+            `).join('');
+            suggestionsDiv.style.display = 'block';
+        } else {
+            suggestionsDiv.style.display = 'none';
+        }
+    });
+    
+    document.addEventListener('click', function(e) {
+        if (!searchInput.contains(e.target)) {
+            suggestionsDiv.style.display = 'none';
+        }
+    });
+    
+    function selectTopic(topic) {
+        searchInput.value = topic;
+        suggestionsDiv.style.display = 'none';
+        // Auto-submit
+        searchInput.closest('form').submit();
+    }
+    
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+    
+    // Category topic clicks
+    document.querySelectorAll('.category-topics span').forEach(span => {
+        span.addEventListener('click', () => selectTopic(span.textContent));
+    });
+    
+    // Animate on load
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.category').forEach((cat, i) => {
+            cat.style.opacity = '0';
+            cat.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                cat.style.transition = 'all 0.5s ease';
+                cat.style.opacity = '1';
+                cat.style.transform = 'translateY(0)';
+            }, i * 100);
+        });
+    });
+</script>
+
+<style>
+    .search-container-enhanced {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 3rem 2rem;
+        min-height: 80vh;
+    }
+    
+    .search-hero {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+    
+    .search-icon {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        animation: bounce 2s infinite;
+    }
+    
+    .search-title {
+        font-size: 2.5rem;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-bottom: 0.5rem;
+    }
+    
+    .search-subtitle {
+        color: #666;
+        margin-bottom: 2rem;
+    }
+    
+    .search-form {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .search-input-wrapper {
+        display: flex;
+        gap: 1rem;
+        background: white;
+        padding: 0.5rem;
+        border-radius: 60px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    .search-input-enhanced {
+        flex: 1;
+        padding: 1rem 1.5rem;
+        border: none;
+        border-radius: 60px;
+        font-size: 1rem;
+        outline: none;
+    }
+    
+    .search-button {
+        padding: 0.8rem 2rem;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        border: none;
+        border-radius: 60px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s;
+    }
+    
+    .search-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102,126,234,0.4);
+    }
+    
+    .search-suggestions {
+        max-width: 600px;
+        margin: 0.5rem auto;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        display: none;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: calc(100% - 4rem);
+        z-index: 100;
+    }
+    
+    .suggestion-item {
+        padding: 0.8rem 1rem;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    
+    .suggestion-item:hover {
+        background: #f0f0f0;
+    }
+    
+    .popular-topics-enhanced {
+        margin-bottom: 3rem;
+    }
+    
+    .popular-topics-enhanced h3 {
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+    
+    .topics-cloud {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+        justify-content: center;
+    }
+    
+    .topic-tag {
+        padding: 0.5rem 1.2rem;
+        background: white;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: all 0.3s;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .topic-tag:hover {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        transform: translateY(-2px);
+    }
+    
+    .topic-categories {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 3rem;
+    }
+    
+    .category {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 20px;
+        text-align: center;
+        transition: all 0.3s;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+    
+    .category:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    
+    .category-icon {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .category h4 {
+        margin-bottom: 1rem;
+        color: #667eea;
+    }
+    
+    .category-topics {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        justify-content: center;
+    }
+    
+    .category-topics span {
+        padding: 0.3rem 0.8rem;
+        background: #f8f9fa;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    
+    .category-topics span:hover {
+        background: #667eea;
+        color: white;
+    }
+    
+    .search-tips {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+    }
+    
+    .tip {
+        background: linear-gradient(135deg, #667eea10, #764ba210);
+        padding: 1rem;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+    }
+    
+    .tip-icon {
+        font-size: 1.5rem;
+    }
+    
+    .tip-text {
+        font-size: 0.9rem;
+        color: #555;
+    }
+    
+    .loading-spinner {
+        text-align: center;
+        padding: 1rem;
+        color: #666;
+    }
+    
+    .info-message {
+        text-align: center;
+        padding: 1rem;
+        color: #999;
+    }
+    
+    .character-search {
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    @media (max-width: 768px) {
+        .search-container-enhanced {
+            padding: 2rem 1rem;
+        }
+        
+        .search-title {
+            font-size: 1.8rem;
+        }
+        
+        .search-input-wrapper {
+            flex-direction: column;
+            border-radius: 20px;
+            padding: 1rem;
+        }
+        
+        .search-button {
+            padding: 0.8rem;
+        }
+        
+        .topic-categories {
+            grid-template-columns: 1fr;
+        }
+        
+        .search-suggestions {
+            width: calc(100% - 2rem);
+        }
+    }
+</style>
+{% endblock %}

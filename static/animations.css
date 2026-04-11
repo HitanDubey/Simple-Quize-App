@@ -1,0 +1,177 @@
+/* Keyframe Animations */
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    75% {
+        transform: translateX(5px);
+    }
+}
+
+@keyframes fadeInOut {
+    0%, 100% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    10%, 90% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 5px rgba(102,126,234,0.5);
+    }
+    to {
+        text-shadow: 0 0 20px rgba(102,126,234,0.8);
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Animation Classes */
+.floating {
+    animation: float 3s ease-in-out infinite;
+}
+
+.pulse {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.glow-text {
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+.shake {
+    animation: shake 0.3s ease-in-out;
+}
+
+.slide-in {
+    animation: slideIn 0.5s ease-out;
+}
+
+.fade-in {
+    animation: fadeInOut 0.5s ease-in;
+}
+
+/* Confetti Animation */
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background: #667eea;
+    position: fixed;
+    top: -10px;
+    animation: confetti-fall 3s linear forwards;
+    pointer-events: none;
+    z-index: 10000;
+}
+
+@keyframes confetti-fall {
+    to {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Running Animation for Character */
+@keyframes runCycle {
+    0%, 100% {
+        transform: rotate(-30deg) translateY(-5px);
+    }
+    50% {
+        transform: rotate(30deg) translateY(5px);
+    }
+}
+
+.running-leg {
+    animation: runCycle 0.3s infinite;
+}
+
+/* Character Jump */
+@keyframes jump {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+.jumping {
+    animation: jump 0.5s ease-in-out;
+}
+
+/* Celebration Effects */
+@keyframes celebrate {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2) rotate(10deg);
+    }
+}
+
+.celebrate {
+    animation: celebrate 0.5s ease-in-out;
+}

@@ -1,0 +1,902 @@
+{% extends "base.html" %}
+
+{% block title %}EchoQuest Pro - Learn, Play, Conquer!{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section-enhanced">
+    <div class="hero-container">
+        <div class="hero-content">
+            <div class="hero-badge pulse">
+                <span class="badge-icon">🎯</span>
+                <span>AI-Powered Adaptive Quiz Platform</span>
+            </div>
+            
+            <h1 class="hero-title glow-text">
+                Master Any Topic
+                <span class="hero-highlight">Through Play</span>
+            </h1>
+            
+            <p class="hero-description">
+                Experience the future of learning with our adaptive quiz engine. 
+                Search any topic, get 20 dynamic questions, and watch your knowledge grow!
+            </p>
+            
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-number">10K+</div>
+                    <div class="stat-label">Quizzes Completed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Topics Available</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">Satisfaction Rate</div>
+                </div>
+            </div>
+            
+            <div class="hero-actions">
+                <a href="{{ url_for('register') }}" class="btn-primary-large pulse">
+                    <span>🚀 Get Started Free</span>
+                    <span class="btn-icon">→</span>
+                </a>
+                <a href="#how-it-works" class="btn-secondary-large">
+                    <span>📖 How It Works</span>
+                </a>
+            </div>
+        </div>
+        
+        <div class="hero-visual">
+            <div class="floating-cards">
+                <div class="floating-card card-1">
+                    <div class="card-icon">🤖</div>
+                    <div class="card-text">Machine Learning</div>
+                    <div class="card-score">+150 XP</div>
+                </div>
+                <div class="floating-card card-2">
+                    <div class="card-icon">🌍</div>
+                    <div class="card-text">Climate Change</div>
+                    <div class="card-score">+120 XP</div>
+                </div>
+                <div class="floating-card card-3">
+                    <div class="card-icon">🐍</div>
+                    <div class="card-text">Python</div>
+                    <div class="card-score">+200 XP</div>
+                </div>
+            </div>
+            
+            <!-- Animated Character -->
+            <div class="hero-character">
+                <div class="character-large">
+                    <div class="character-face-large">😺</div>
+                    <div class="character-eyes">
+                        <div class="eye left"></div>
+                        <div class="eye right"></div>
+                    </div>
+                    <div class="character-body-large">
+                        <div class="leg-large left-leg"></div>
+                        <div class="leg-large right-leg"></div>
+                    </div>
+                </div>
+                <div class="speech-bubble-large">
+                    Ready to become a master? 🎯
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section id="how-it-works" class="how-it-works-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">How EchoQuest Works</h2>
+            <p class="section-subtitle">Three simple steps to start your learning journey</p>
+        </div>
+        
+        <div class="steps-container">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <div class="step-icon">🔍</div>
+                <h3>Search Any Topic</h3>
+                <p>Type any subject you want to learn about - from Python to Philosophy, we've got you covered!</p>
+                <div class="step-example">Example: "Machine Learning", "Space Exploration"</div>
+            </div>
+            
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <div class="step-icon">🎮</div>
+                <h3>Play Adaptive Quiz</h3>
+                <p>Answer 20 dynamic questions that adapt to your skill level. The better you do, the harder it gets!</p>
+                <div class="step-example">Speed bonus for fast answers! ⚡</div>
+            </div>
+            
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <div class="step-icon">🏆</div>
+                <h3>Earn Rewards</h3>
+                <p>Gain XP, level up, and compete on global leaderboards. Share your achievements with friends!</p>
+                <div class="step-example">Climb the ranks! 📈</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section-enhanced">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Amazing Features</h2>
+            <p class="section-subtitle">Everything you need for an engaging learning experience</p>
+        </div>
+        
+        <div class="features-grid-enhanced">
+            <div class="feature-card-enhanced">
+                <div class="feature-icon-large">🎯</div>
+                <h3>Adaptive Difficulty</h3>
+                <p>Questions automatically adjust based on your performance. Always challenged, never bored!</p>
+                <div class="feature-tag">Smart Learning</div>
+            </div>
+            
+            <div class="feature-card-enhanced">
+                <div class="feature-icon-large">⚡</div>
+                <h3>Speed Bonus System</h3>
+                <p>Answer quickly to earn bonus points. Test your knowledge under pressure!</p>
+                <div class="feature-tag">+5 Points</div>
+            </div>
+            
+            <div class="feature-card-enhanced">
+                <div class="feature-icon-large">🤖</div>
+                <h3>AI Question Generation</h3>
+                <p>Our system fetches fresh questions from across the web. Every quiz is unique!</p>
+                <div class="feature-tag">Dynamic Content</div>
+            </div>
+            
+            <div class="feature-card-enhanced">
+                <div class="feature-icon-large">📊</div>
+                <h3>Detailed Analytics</h3>
+                <p>Track your progress, identify weak spots, and watch your knowledge grow over time.</p>
+                <div class="feature-tag">Performance Insights</div>
+            </div>
+            
+            <div class="feature-card-enhanced">
+                <div class="feature-icon-large">🏆</div>
+                <h3>Global Leaderboards</h3>
+                <p>Compete with learners worldwide. Can you reach the top?</p>
+                <div class="feature-tag">Compete & Win</div>
+            </div>
+            
+            <div class="feature-card-enhanced">
+                <div class="feature-icon-large">🎮</div>
+                <h3>Gamified Experience</h3>
+                <p>Level up, earn XP, unlock achievements. Learning has never been this fun!</p>
+                <div class="feature-tag">Addictive Learning</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Popular Topics Section -->
+<section class="popular-topics-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">🔥 Most Popular Topics</h2>
+            <p class="section-subtitle">Join thousands of learners exploring these subjects</p>
+        </div>
+        
+        <div class="topics-grid" id="popular-topics-grid">
+            <div class="loading-spinner">Loading popular topics...</div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="testimonials-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">What Our Users Say</h2>
+            <p class="section-subtitle">Join the community of happy learners</p>
+        </div>
+        
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-avatar">👩‍💻</div>
+                <div class="testimonial-content">
+                    <p>"EchoQuest completely changed how I learn. The adaptive questions keep me engaged!"</p>
+                    <div class="testimonial-author">— Sarah Chen, Software Engineer</div>
+                    <div class="testimonial-rating">★★★★★</div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <div class="testimonial-avatar">👨‍🎓</div>
+                <div class="testimonial-content">
+                    <p>"I've improved my knowledge in 10+ topics. The speed bonus makes it exciting!"</p>
+                    <div class="testimonial-author">— Michael Rodriguez, Student</div>
+                    <div class="testimonial-rating">★★★★★</div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <div class="testimonial-avatar">👩‍🏫</div>
+                <div class="testimonial-content">
+                    <p>"Perfect for my students! They love competing on the leaderboard."</p>
+                    <div class="testimonial-author">— Dr. Emily Watson, Professor</div>
+                    <div class="testimonial-rating">★★★★★</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action Section -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2 class="cta-title">Ready to Start Your Journey?</h2>
+            <p class="cta-description">Join thousands of learners and master any topic today!</p>
+            <div class="cta-buttons">
+                {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('search_topic') }}" class="btn-primary-large">🎮 Start Quiz Now</a>
+                    <a href="{{ url_for('dashboard') }}" class="btn-secondary-large">📊 View Dashboard</a>
+                {% else %}
+                    <a href="{{ url_for('register') }}" class="btn-primary-large">🚀 Create Free Account</a>
+                    <a href="{{ url_for('login') }}" class="btn-secondary-large">🔐 Login</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Load popular topics dynamically
+    fetch('/popular_topics')
+        .then(response => response.json())
+        .then(topics => {
+            const container = document.getElementById('popular-topics-grid');
+            if (topics && topics.length > 0) {
+                container.innerHTML = topics.map(topic => `
+                    <div class="topic-card-enhanced" onclick="window.location.href='{{ url_for('search_topic') }}?topic=${encodeURIComponent(topic.topic_name)}'">
+                        <div class="topic-icon">📚</div>
+                        <div class="topic-name">${escapeHtml(topic.topic_name)}</div>
+                        <div class="topic-stats">${topic.search_count} searches</div>
+                        <div class="topic-play">Play Now →</div>
+                    </div>
+                `).join('');
+            } else {
+                container.innerHTML = `
+                    <div class="empty-topics">
+                        <p>No popular topics yet. Be the first to search!</p>
+                        <a href="{{ url_for('search_topic') }}" class="btn-primary">Start Exploring</a>
+                    </div>
+                `;
+            }
+        })
+        .catch(error => {
+            console.error('Error loading topics:', error);
+            document.getElementById('popular-topics-grid').innerHTML = `
+                <div class="error-message">Unable to load topics. Please try again later.</div>
+            `;
+        });
+    
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+    
+    // Animate elements on scroll
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-in');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+    
+    document.querySelectorAll('.step-card, .feature-card-enhanced, .testimonial-card, .topic-card-enhanced').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'all 0.6s ease-out';
+        observer.observe(el);
+    });
+    
+    // Add animate-in class styles
+    const style = document.createElement('style');
+    style.textContent = `
+        .animate-in {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // Hero character animation
+    let isRunning = false;
+    setInterval(() => {
+        const character = document.querySelector('.character-large');
+        const legs = document.querySelectorAll('.leg-large');
+        
+        if (character && !isRunning) {
+            isRunning = true;
+            legs.forEach(leg => {
+                leg.style.animation = 'runCycle 0.3s infinite';
+            });
+            
+            setTimeout(() => {
+                legs.forEach(leg => {
+                    leg.style.animation = '';
+                });
+                isRunning = false;
+            }, 2000);
+        }
+    }, 5000);
+</script>
+
+<style>
+    /* Additional styles for index page */
+    .hero-section-enhanced {
+        min-height: 90vh;
+        display: flex;
+        align-items: center;
+        padding: 4rem 2rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .hero-section-enhanced::before {
+        content: '';
+        position: absolute;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255,255,255,0.1) 1%, transparent 1%);
+        background-size: 50px 50px;
+        animation: moveBackground 20s linear infinite;
+    }
+    
+    @keyframes moveBackground {
+        from { transform: translate(0, 0); }
+        to { transform: translate(50px, 50px); }
+    }
+    
+    .hero-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba(255,255,255,0.2);
+        backdrop-filter: blur(10px);
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+        width: fit-content;
+        margin-bottom: 1.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .hero-title {
+        font-size: 3.5rem;
+        font-weight: 800;
+        margin-bottom: 1.5rem;
+        line-height: 1.2;
+    }
+    
+    .hero-highlight {
+        background: linear-gradient(135deg, #FFD700, #FFA500);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        display: block;
+    }
+    
+    .hero-description {
+        font-size: 1.2rem;
+        color: rgba(255,255,255,0.9);
+        margin-bottom: 2rem;
+        line-height: 1.6;
+    }
+    
+    .hero-stats {
+        display: flex;
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #FFD700;
+    }
+    
+    .stat-label {
+        font-size: 0.9rem;
+        color: rgba(255,255,255,0.8);
+    }
+    
+    .hero-actions {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+    
+    .btn-primary-large {
+        background: linear-gradient(135deg, #FFD700, #FFA500);
+        color: #333;
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: bold;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s;
+    }
+    
+    .btn-primary-large:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+    
+    .btn-secondary-large {
+        background: rgba(255,255,255,0.2);
+        backdrop-filter: blur(10px);
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: all 0.3s;
+    }
+    
+    .btn-secondary-large:hover {
+        background: rgba(255,255,255,0.3);
+        transform: translateY(-2px);
+    }
+    
+    .hero-visual {
+        position: relative;
+        height: 500px;
+    }
+    
+    .floating-cards {
+        position: relative;
+        height: 100%;
+    }
+    
+    .floating-card {
+        position: absolute;
+        background: white;
+        padding: 1rem;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        animation: float 3s ease-in-out infinite;
+    }
+    
+    .card-1 {
+        top: 20%;
+        left: 0;
+        animation-delay: 0s;
+    }
+    
+    .card-2 {
+        top: 50%;
+        right: 0;
+        animation-delay: 1s;
+    }
+    
+    .card-3 {
+        bottom: 20%;
+        left: 20%;
+        animation-delay: 2s;
+    }
+    
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-20px); }
+    }
+    
+    .hero-character {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+    }
+    
+    .character-large {
+        position: relative;
+        font-size: 5rem;
+    }
+    
+    .character-face-large {
+        font-size: 6rem;
+        animation: bounce 1s infinite;
+    }
+    
+    .character-eyes {
+        position: absolute;
+        top: 30%;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 1rem;
+    }
+    
+    .eye {
+        width: 15px;
+        height: 15px;
+        background: white;
+        border-radius: 50%;
+        position: relative;
+    }
+    
+    .eye::after {
+        content: '';
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        background: black;
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        animation: blink 3s infinite;
+    }
+    
+    @keyframes blink {
+        0%, 90%, 100% { height: 8px; }
+        95% { height: 0; }
+    }
+    
+    .leg-large {
+        position: absolute;
+        bottom: -20px;
+        width: 30px;
+        height: 40px;
+        background: #333;
+        border-radius: 20px;
+    }
+    
+    .left-leg {
+        left: 20%;
+        transform-origin: top center;
+    }
+    
+    .right-leg {
+        right: 20%;
+        transform-origin: top center;
+    }
+    
+    @keyframes runCycle {
+        0%, 100% { transform: rotate(-30deg) translateY(-5px); }
+        50% { transform: rotate(30deg) translateY(5px); }
+    }
+    
+    .speech-bubble-large {
+        position: absolute;
+        top: -60px;
+        right: -20px;
+        background: white;
+        padding: 0.8rem 1.2rem;
+        border-radius: 20px;
+        white-space: nowrap;
+        font-weight: bold;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        animation: fadeInOut 3s infinite;
+    }
+    
+    .speech-bubble-large::before {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        right: 20px;
+        border-width: 10px 10px 0 0;
+        border-style: solid;
+        border-color: white transparent transparent transparent;
+    }
+    
+    /* How It Works Section */
+    .how-it-works-section {
+        padding: 5rem 2rem;
+        background: white;
+    }
+    
+    .steps-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .step-card {
+        text-align: center;
+        padding: 2rem;
+        background: #f8f9fa;
+        border-radius: 20px;
+        transition: all 0.3s;
+        position: relative;
+    }
+    
+    .step-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    .step-number {
+        position: absolute;
+        top: -15px;
+        left: -15px;
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+    
+    .step-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+    
+    .step-example {
+        margin-top: 1rem;
+        padding: 0.5rem;
+        background: #e9ecef;
+        border-radius: 10px;
+        font-size: 0.85rem;
+        color: #666;
+    }
+    
+    /* Features Section */
+    .features-section-enhanced {
+        padding: 5rem 2rem;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    }
+    
+    .features-grid-enhanced {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .feature-card-enhanced {
+        background: white;
+        padding: 2rem;
+        border-radius: 20px;
+        text-align: center;
+        transition: all 0.3s;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .feature-card-enhanced:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+    
+    .feature-card-enhanced::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(102,126,234,0.1), transparent);
+        transition: left 0.5s;
+    }
+    
+    .feature-card-enhanced:hover::before {
+        left: 100%;
+    }
+    
+    .feature-icon-large {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+    
+    .feature-tag {
+        display: inline-block;
+        margin-top: 1rem;
+        padding: 0.3rem 0.8rem;
+        background: #667eea20;
+        color: #667eea;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: bold;
+    }
+    
+    /* Popular Topics */
+    .popular-topics-section {
+        padding: 5rem 2rem;
+        background: white;
+    }
+    
+    .topics-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1.5rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .topic-card-enhanced {
+        background: linear-gradient(135deg, #667eea10, #764ba210);
+        padding: 1.5rem;
+        border-radius: 15px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s;
+        border: 1px solid #e0e0e0;
+    }
+    
+    .topic-card-enhanced:hover {
+        transform: translateY(-5px);
+        border-color: #667eea;
+        box-shadow: 0 5px 20px rgba(102,126,234,0.2);
+    }
+    
+    .topic-icon {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .topic-name {
+        font-weight: bold;
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .topic-stats {
+        font-size: 0.85rem;
+        color: #666;
+        margin-bottom: 0.5rem;
+    }
+    
+    .topic-play {
+        color: #667eea;
+        font-weight: bold;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+    
+    .topic-card-enhanced:hover .topic-play {
+        opacity: 1;
+    }
+    
+    /* Testimonials */
+    .testimonials-section {
+        padding: 5rem 2rem;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+    }
+    
+    .testimonials-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .testimonial-card {
+        background: rgba(255,255,255,0.1);
+        backdrop-filter: blur(10px);
+        padding: 1.5rem;
+        border-radius: 20px;
+        display: flex;
+        gap: 1rem;
+        transition: all 0.3s;
+    }
+    
+    .testimonial-card:hover {
+        transform: translateY(-5px);
+        background: rgba(255,255,255,0.2);
+    }
+    
+    .testimonial-avatar {
+        font-size: 3rem;
+    }
+    
+    .testimonial-content p {
+        margin-bottom: 0.5rem;
+        line-height: 1.6;
+    }
+    
+    .testimonial-author {
+        font-size: 0.85rem;
+        opacity: 0.9;
+        margin-bottom: 0.5rem;
+    }
+    
+    .testimonial-rating {
+        color: #FFD700;
+    }
+    
+    /* CTA Section */
+    .cta-section {
+        padding: 5rem 2rem;
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
+        color: white;
+        text-align: center;
+    }
+    
+    .cta-title {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .cta-description {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+    }
+    
+    .cta-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .hero-container {
+            grid-template-columns: 1fr;
+            text-align: center;
+        }
+        
+        .hero-title {
+            font-size: 2rem;
+        }
+        
+        .hero-stats {
+            justify-content: center;
+        }
+        
+        .hero-actions {
+            justify-content: center;
+        }
+        
+        .floating-cards {
+            display: none;
+        }
+        
+        .hero-character {
+            position: relative;
+            margin-top: 2rem;
+        }
+        
+        .speech-bubble-large {
+            white-space: normal;
+            max-width: 200px;
+        }
+    }
+</style>
+{% endblock %}
