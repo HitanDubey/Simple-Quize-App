@@ -6,120 +6,226 @@
 <div class="search-container-enhanced">
     <div class="search-hero">
         <div class="search-icon">🔍</div>
-        <h1 class="search-title">What do you want to learn?</h1>
-        <p class="search-subtitle">Search any topic and get 20 adaptive questions instantly!</p>
+        <h1 class="search-title">What do you want to learn today?</h1>
+        <p class="search-subtitle">Choose your topic, customize your quiz, and start learning!</p>
         
-        <form method="POST" action="{{ url_for('search_topic') }}" class="search-form">
+        <form method="POST" action="{{ url_for('search_topic') }}" class="search-form" id="searchForm">
             <div class="search-input-wrapper">
                 <input type="text" 
                        name="topic" 
                        id="topic-search" 
                        class="search-input-enhanced" 
-                       placeholder="e.g., Machine Learning, Python, Climate Change, Space..."
+                       placeholder="e.g., Machine Learning, Python, History, Space..."
                        autocomplete="off"
                        required>
-                <button type="submit" class="search-button">
-                    <span>🚀 Start Quiz</span>
-                </button>
+                <span class="search-input-icon">🔎</span>
             </div>
+            
+            <!-- Quiz Settings Section -->
+            <div class="quiz-settings">
+                <!-- Question Count Selector -->
+                <div class="setting-group">
+                    <label for="num_questions">
+                        <span class="setting-icon">📊</span>
+                        Number of Questions
+                    </label>
+                    <select name="num_questions" id="num_questions" class="setting-select">
+                        <option value="5">5 Questions (Quick Practice)</option>
+                        <option value="10">10 Questions (Short Quiz)</option>
+                        <option value="20" selected>20 Questions (Standard)</option>
+                        <option value="30">30 Questions (Extended)</option>
+                        <option value="50">50 Questions (Marathon)</option>
+                    </select>
+                    <span class="setting-hint">More questions = More XP!</span>
+                </div>
+                
+                <!-- Difficulty Selector -->
+                <div class="setting-group">
+                    <label for="difficulty">
+                        <span class="setting-icon">🎯</span>
+                        Difficulty Level
+                    </label>
+                    <select name="difficulty" id="difficulty" class="setting-select">
+                        <option value="mixed" selected>🌟 Mixed (All Levels)</option>
+                        <option value="easy">🟢 Easy (Beginner)</option>
+                        <option value="medium">🟡 Medium (Intermediate)</option>
+                        <option value="hard">🔴 Hard (Expert)</option>
+                    </select>
+                    <span class="setting-hint">Choose your challenge level</span>
+                </div>
+            </div>
+            
+            <button type="submit" class="search-button-enhanced">
+                <span>🚀 Start Quiz</span>
+                <span class="btn-arrow">→</span>
+            </button>
         </form>
         
+        <!-- Search Suggestions Dropdown -->
         <div class="search-suggestions" id="suggestions"></div>
     </div>
 
+    <!-- Popular Topics Section -->
     <div class="popular-topics-enhanced">
-        <h3>🔥 Popular Topics This Week</h3>
+        <div class="section-header">
+            <h3>🔥 Trending Topics This Week</h3>
+            <p class="section-subtitle">Join thousands of learners exploring these subjects</p>
+        </div>
         <div class="topics-cloud" id="topics-cloud">
-            <div class="loading-spinner">Loading popular topics...</div>
+            <div class="loading-spinner">
+                <span class="spinner"></span>
+                Loading popular topics...
+            </div>
         </div>
     </div>
 
+    <!-- Topic Categories Grid -->
     <div class="topic-categories">
-        <div class="category">
-            <div class="category-icon">💻</div>
-            <h4>Technology</h4>
-            <div class="category-topics">
-                <span>Python</span>
-                <span>JavaScript</span>
-                <span>React</span>
-                <span>Django</span>
-                <span>SQL</span>
-            </div>
+        <div class="section-header">
+            <h3>📚 Browse by Category</h3>
+            <p class="section-subtitle">Click on any topic to start a quiz instantly</p>
         </div>
         
-        <div class="category">
-            <div class="category-icon">🔬</div>
-            <h4>Science</h4>
-            <div class="category-topics">
-                <span>Physics</span>
-                <span>Chemistry</span>
-                <span>Biology</span>
-                <span>Astronomy</span>
-                <span>Genetics</span>
+        <div class="categories-grid">
+            <!-- Technology -->
+            <div class="category-card">
+                <div class="category-header">
+                    <span class="category-icon">💻</span>
+                    <h4>Technology</h4>
+                </div>
+                <div class="category-topics">
+                    <span class="topic-chip" onclick="selectTopic('Python Programming')">🐍 Python</span>
+                    <span class="topic-chip" onclick="selectTopic('JavaScript')">📜 JavaScript</span>
+                    <span class="topic-chip" onclick="selectTopic('React Framework')">⚛️ React</span>
+                    <span class="topic-chip" onclick="selectTopic('Machine Learning')">🤖 Machine Learning</span>
+                    <span class="topic-chip" onclick="selectTopic('SQL Database')">🗄️ SQL</span>
+                    <span class="topic-chip" onclick="selectTopic('Cybersecurity')">🔒 Cybersecurity</span>
+                    <span class="topic-chip" onclick="selectTopic('Cloud Computing')">☁️ Cloud Computing</span>
+                    <span class="topic-chip" onclick="selectTopic('Web Development')">🌐 Web Development</span>
+                </div>
             </div>
-        </div>
-        
-        <div class="category">
-            <div class="category-icon">🌍</div>
-            <h4>Environment</h4>
-            <div class="category-topics">
-                <span>Climate Change</span>
-                <span>Renewable Energy</span>
-                <span>Conservation</span>
-                <span>Pollution</span>
-                <span>Sustainability</span>
+            
+            <!-- Science -->
+            <div class="category-card">
+                <div class="category-header">
+                    <span class="category-icon">🔬</span>
+                    <h4>Science & Nature</h4>
+                </div>
+                <div class="category-topics">
+                    <span class="topic-chip" onclick="selectTopic('Physics')">⚡ Physics</span>
+                    <span class="topic-chip" onclick="selectTopic('Chemistry')">🧪 Chemistry</span>
+                    <span class="topic-chip" onclick="selectTopic('Biology')">🧬 Biology</span>
+                    <span class="topic-chip" onclick="selectTopic('Astronomy')">🌟 Astronomy</span>
+                    <span class="topic-chip" onclick="selectTopic('Genetics')">🧬 Genetics</span>
+                    <span class="topic-chip" onclick="selectTopic('Quantum Mechanics')">🔮 Quantum Mechanics</span>
+                    <span class="topic-chip" onclick="selectTopic('Neuroscience')">🧠 Neuroscience</span>
+                    <span class="topic-chip" onclick="selectTopic('Evolution')">🦋 Evolution</span>
+                </div>
             </div>
-        </div>
-        
-        <div class="category">
-            <div class="category-icon">📚</div>
-            <h4>Humanities</h4>
-            <div class="category-topics">
-                <span>History</span>
-                <span>Philosophy</span>
-                <span>Literature</span>
-                <span>Art History</span>
-                <span>Psychology</span>
+            
+            <!-- Mathematics -->
+            <div class="category-card">
+                <div class="category-header">
+                    <span class="category-icon">📐</span>
+                    <h4>Mathematics</h4>
+                </div>
+                <div class="category-topics">
+                    <span class="topic-chip" onclick="selectTopic('Algebra')">📊 Algebra</span>
+                    <span class="topic-chip" onclick="selectTopic('Geometry')">📏 Geometry</span>
+                    <span class="topic-chip" onclick="selectTopic('Calculus')">∫ Calculus</span>
+                    <span class="topic-chip" onclick="selectTopic('Statistics')">📈 Statistics</span>
+                    <span class="topic-chip" onclick="selectTopic('Trigonometry')">🔺 Trigonometry</span>
+                    <span class="topic-chip" onclick="selectTopic('Linear Algebra')">🔢 Linear Algebra</span>
+                    <span class="topic-chip" onclick="selectTopic('Number Theory')">🔢 Number Theory</span>
+                    <span class="topic-chip" onclick="selectTopic('Probability')">🎲 Probability</span>
+                </div>
             </div>
-        </div>
-        
-        <div class="category">
-            <div class="category-icon">🤖</div>
-            <h4>AI & ML</h4>
-            <div class="category-topics">
-                <span>Machine Learning</span>
-                <span>Deep Learning</span>
-                <span>Neural Networks</span>
-                <span>NLP</span>
-                <span>Computer Vision</span>
+            
+            <!-- History & Humanities -->
+            <div class="category-card">
+                <div class="category-header">
+                    <span class="category-icon">📜</span>
+                    <h4>History & Humanities</h4>
+                </div>
+                <div class="category-topics">
+                    <span class="topic-chip" onclick="selectTopic('World History')">🌍 World History</span>
+                    <span class="topic-chip" onclick="selectTopic('Ancient Civilizations')">🏛️ Ancient Civilizations</span>
+                    <span class="topic-chip" onclick="selectTopic('World War II')">⚔️ World War II</span>
+                    <span class="topic-chip" onclick="selectTopic('Philosophy')">🤔 Philosophy</span>
+                    <span class="topic-chip" onclick="selectTopic('Literature')">📖 Literature</span>
+                    <span class="topic-chip" onclick="selectTopic('Art History')">🎨 Art History</span>
+                    <span class="topic-chip" onclick="selectTopic('Mythology')">🐉 Mythology</span>
+                    <span class="topic-chip" onclick="selectTopic('Psychology')">🧠 Psychology</span>
+                </div>
             </div>
-        </div>
-        
-        <div class="category">
-            <div class="category-icon">📊</div>
-            <h4>Data Science</h4>
-            <div class="category-topics">
-                <span>Statistics</span>
-                <span>Data Analysis</span>
-                <span>Pandas</span>
-                <span>Tableau</span>
-                <span>Big Data</span>
+            
+            <!-- Environment & Geography -->
+            <div class="category-card">
+                <div class="category-header">
+                    <span class="category-icon">🌍</span>
+                    <h4>Environment & Geography</h4>
+                </div>
+                <div class="category-topics">
+                    <span class="topic-chip" onclick="selectTopic('Climate Change')">🌡️ Climate Change</span>
+                    <span class="topic-chip" onclick="selectTopic('Renewable Energy')">☀️ Renewable Energy</span>
+                    <span class="topic-chip" onclick="selectTopic('World Geography')">🗺️ World Geography</span>
+                    <span class="topic-chip" onclick="selectTopic('Conservation')">🌿 Conservation</span>
+                    <span class="topic-chip" onclick="selectTopic('Oceans')">🌊 Oceans</span>
+                    <span class="topic-chip" onclick="selectTopic('Sustainability')">♻️ Sustainability</span>
+                    <span class="topic-chip" onclick="selectTopic('Space Exploration')">🚀 Space Exploration</span>
+                    <span class="topic-chip" onclick="selectTopic('Ecology')">🌳 Ecology</span>
+                </div>
+            </div>
+            
+            <!-- Arts & Entertainment -->
+            <div class="category-card">
+                <div class="category-header">
+                    <span class="category-icon">🎭</span>
+                    <h4>Arts & Entertainment</h4>
+                </div>
+                <div class="category-topics">
+                    <span class="topic-chip" onclick="selectTopic('Movies')">🎬 Movies</span>
+                    <span class="topic-chip" onclick="selectTopic('Music Theory')">🎵 Music Theory</span>
+                    <span class="topic-chip" onclick="selectTopic('Classical Music')">🎻 Classical Music</span>
+                    <span class="topic-chip" onclick="selectTopic('Pop Culture')">🌟 Pop Culture</span>
+                    <span class="topic-chip" onclick="selectTopic('Video Games')">🎮 Video Games</span>
+                    <span class="topic-chip" onclick="selectTopic('Theater')">🎭 Theater</span>
+                    <span class="topic-chip" onclick="selectTopic('Photography')">📷 Photography</span>
+                    <span class="topic-chip" onclick="selectTopic('Dance')">💃 Dance</span>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- Quick Tips Section -->
     <div class="search-tips">
-        <div class="tip">
+        <div class="tip-card">
             <div class="tip-icon">💡</div>
-            <div class="tip-text">Be specific for better questions! "Python Programming" > "Python"</div>
+            <div class="tip-content">
+                <h4>Be Specific</h4>
+                <p>Use specific terms like "Python Programming" instead of just "Python" for better questions!</p>
+            </div>
         </div>
-        <div class="tip">
+        <div class="tip-card">
             <div class="tip-icon">⚡</div>
-            <div class="tip-text">Speed bonus points for quick answers!</div>
+            <div class="tip-content">
+                <h4>Speed Bonus</h4>
+                <p>Answer quickly to earn bonus points! Under 5 seconds = +5 points, under 10 seconds = +2 points!</p>
+            </div>
         </div>
-        <div class="tip">
+        <div class="tip-card">
             <div class="tip-icon">🏆</div>
-            <div class="tip-text">Compete on leaderboards for each topic!</div>
+            <div class="tip-content">
+                <h4>Compete & Win</h4>
+                <p>Your scores are saved on global leaderboards. Compete with learners worldwide!</p>
+            </div>
+        </div>
+        <div class="tip-card">
+            <div class="tip-icon">🎯</div>
+            <div class="tip-content">
+                <h4>Adaptive Difficulty</h4>
+                <p>Questions adapt to your performance. The better you do, the harder it gets!</p>
+            </div>
         </div>
     </div>
 </div>
@@ -136,28 +242,576 @@
     <div class="speech-bubble">Search any topic! 📚</div>
 </div>
 
-<script>
-    // Load popular topics
-    fetch('/popular_topics')
-        .then(response => response.json())
-        .then(topics => {
-            const container = document.getElementById('topics-cloud');
-            if (topics && topics.length > 0) {
-                container.innerHTML = topics.map(topic => `
-                    <span class="topic-tag" onclick="selectTopic('${escapeHtml(topic.topic_name)}')">
-                        ${escapeHtml(topic.topic_name)} (${topic.search_count})
-                    </span>
-                `).join('');
-            } else {
-                container.innerHTML = '<div class="info-message">No popular topics yet. Be the first to search!</div>';
-            }
-        })
-        .catch(error => {
-            console.error('Error loading topics:', error);
-            document.getElementById('topics-cloud').innerHTML = '<div class="error-message">Unable to load topics</div>';
-        });
+<style>
+    /* ============================================ */
+    /* COMPLETE CSS FOR SEARCH PAGE                 */
+    /* ============================================ */
+    
+    .search-container-enhanced {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 2rem 1.5rem;
+        min-height: 80vh;
+    }
+    
+    /* Hero Section */
+    .search-hero {
+        text-align: center;
+        margin-bottom: 4rem;
+        position: relative;
+    }
+    
+    .search-icon {
+        font-size: 4.5rem;
+        margin-bottom: 1rem;
+        animation: float 3s ease-in-out infinite;
+    }
+    
+    .search-title {
+        font-size: 2.8rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-bottom: 0.5rem;
+    }
+    
+    .search-subtitle {
+        font-size: 1.2rem;
+        color: #666;
+        margin-bottom: 2.5rem;
+    }
+    
+    /* Search Form */
+    .search-form {
+        max-width: 700px;
+        margin: 0 auto;
+    }
+    
+    .search-input-wrapper {
+        position: relative;
+        margin-bottom: 1.5rem;
+    }
+    
+    .search-input-enhanced {
+        width: 100%;
+        padding: 1.2rem 3rem 1.2rem 1.5rem;
+        font-size: 1.1rem;
+        border: 3px solid #e0e0e0;
+        border-radius: 60px;
+        outline: none;
+        transition: all 0.3s;
+        background: white;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    }
+    
+    .search-input-enhanced:focus {
+        border-color: #667eea;
+        box-shadow: 0 5px 25px rgba(102,126,234,0.2);
+    }
+    
+    .search-input-icon {
+        position: absolute;
+        right: 1.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1.3rem;
+        color: #999;
+        pointer-events: none;
+    }
+    
+    /* Quiz Settings */
+    .quiz-settings {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+    
+    .setting-group {
+        text-align: left;
+    }
+    
+    .setting-group label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.75rem;
+        font-weight: 600;
+        color: #333;
+        font-size: 1rem;
+    }
+    
+    .setting-icon {
+        font-size: 1.3rem;
+    }
+    
+    .setting-select {
+        width: 100%;
+        padding: 0.9rem 1rem;
+        border: 2px solid #e0e0e0;
+        border-radius: 12px;
+        font-size: 1rem;
+        background: white;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-family: inherit;
+    }
+    
+    .setting-select:hover {
+        border-color: #667eea;
+    }
+    
+    .setting-select:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+    }
+    
+    .setting-hint {
+        display: block;
+        margin-top: 0.5rem;
+        font-size: 0.8rem;
+        color: #888;
+    }
+    
+    /* Search Button */
+    .search-button-enhanced {
+        width: 100%;
+        padding: 1.2rem 2rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 60px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        transition: all 0.3s;
+        box-shadow: 0 5px 20px rgba(102,126,234,0.3);
+    }
+    
+    .search-button-enhanced:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(102,126,234,0.4);
+    }
+    
+    .btn-arrow {
+        transition: transform 0.3s;
+        font-size: 1.3rem;
+    }
+    
+    .search-button-enhanced:hover .btn-arrow {
+        transform: translateX(5px);
+    }
+    
+    /* Search Suggestions */
+    .search-suggestions {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: calc(100% - 4rem);
+        max-width: 600px;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        margin-top: 0.5rem;
+        display: none;
+        z-index: 1000;
+        overflow: hidden;
+    }
+    
+    .suggestion-item {
+        padding: 1rem 1.5rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        border-bottom: 1px solid #f0f0f0;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+    
+    .suggestion-item:last-child {
+        border-bottom: none;
+    }
+    
+    .suggestion-item:hover {
+        background: linear-gradient(135deg, #667eea10, #764ba210);
+    }
+    
+    .suggestion-icon {
+        opacity: 0.6;
+    }
+    
+    /* Section Headers */
+    .section-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    
+    .section-header h3 {
+        font-size: 2rem;
+        color: #333;
+        margin-bottom: 0.5rem;
+    }
+    
+    .section-subtitle {
+        color: #666;
+        font-size: 1rem;
+    }
+    
+    /* Popular Topics */
+    .popular-topics-enhanced {
+        margin-bottom: 4rem;
+    }
+    
+    .topics-cloud {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+        min-height: 80px;
+    }
+    
+    .topic-tag {
+        padding: 0.7rem 1.5rem;
+        background: white;
+        border-radius: 40px;
+        cursor: pointer;
+        transition: all 0.3s;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        font-weight: 500;
+        border: 1px solid #e0e0e0;
+        font-size: 1rem;
+    }
+    
+    .topic-tag:hover {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(102,126,234,0.3);
+        border-color: transparent;
+    }
+    
+    /* Categories Grid */
+    .topic-categories {
+        margin-bottom: 4rem;
+    }
+    
+    .categories-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .category-card {
+        background: white;
+        border-radius: 20px;
+        padding: 1.5rem;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        transition: all 0.3s;
+        border: 1px solid #f0f0f0;
+    }
+    
+    .category-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+    }
+    
+    .category-header {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1.25rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 2px solid #f0f0f0;
+    }
+    
+    .category-icon {
+        font-size: 2rem;
+    }
+    
+    .category-header h4 {
+        font-size: 1.2rem;
+        color: #333;
+        font-weight: 600;
+    }
+    
+    .category-topics {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .topic-chip {
+        padding: 0.4rem 1rem;
+        background: #f8f9fa;
+        border-radius: 25px;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        border: 1px solid #e0e0e0;
+    }
+    
+    .topic-chip:hover {
+        background: #667eea;
+        color: white;
+        border-color: #667eea;
+        transform: scale(1.05);
+    }
+    
+    /* Tips Section */
+    .search-tips {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+    
+    .tip-card {
+        background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+        padding: 1.5rem;
+        border-radius: 20px;
+        display: flex;
+        gap: 1rem;
+        transition: all 0.3s;
+        border: 1px solid #e8e8e8;
+    }
+    
+    .tip-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    
+    .tip-icon {
+        font-size: 2rem;
+        flex-shrink: 0;
+    }
+    
+    .tip-content h4 {
+        margin-bottom: 0.5rem;
+        color: #333;
+        font-size: 1rem;
+    }
+    
+    .tip-content p {
+        color: #666;
+        font-size: 0.85rem;
+        line-height: 1.5;
+    }
+    
+    /* Loading Spinner */
+    .loading-spinner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        color: #666;
+        gap: 0.5rem;
+    }
+    
+    .spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid #e0e0e0;
+        border-top-color: #667eea;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+    }
+    
+    /* Animated Character */
+    .animated-character {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 999;
+        cursor: pointer;
+        transition: transform 0.3s;
+    }
+    
+    .animated-character:hover {
+        transform: scale(1.1);
+    }
+    
+    .character-body {
+        position: relative;
+    }
+    
+    .character-face {
+        font-size: 4rem;
+        filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2));
+        animation: bounce 1s infinite;
+    }
+    
+    .character-legs {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        margin-top: -10px;
+    }
+    
+    .leg {
+        width: 15px;
+        height: 20px;
+        background: #333;
+        border-radius: 10px;
+        animation: walk 0.5s infinite;
+    }
+    
+    .leg-left {
+        transform-origin: top center;
+    }
+    
+    .leg-right {
+        transform-origin: top center;
+        animation-delay: 0.25s;
+    }
+    
+    .speech-bubble {
+        position: absolute;
+        top: -60px;
+        right: 0;
+        background: white;
+        padding: 10px 18px;
+        border-radius: 25px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        white-space: nowrap;
+        font-weight: 600;
+        font-size: 0.95rem;
+        animation: fadeInOut 3s infinite;
+    }
+    
+    .speech-bubble::before {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        right: 25px;
+        border-width: 10px 10px 0 0;
+        border-style: solid;
+        border-color: white transparent transparent transparent;
+    }
+    
+    /* Animations */
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-15px); }
+    }
+    
+    @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+    
+    @keyframes walk {
+        0%, 100% { transform: rotate(-15deg); }
+        50% { transform: rotate(15deg); }
+    }
+    
+    @keyframes fadeInOut {
+        0%, 100% { opacity: 0; transform: translateY(10px); }
+        10%, 90% { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+    
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+        .categories-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .search-container-enhanced {
+            padding: 1.5rem 1rem;
+        }
+        
+        .search-title {
+            font-size: 2rem;
+        }
+        
+        .search-subtitle {
+            font-size: 1rem;
+        }
+        
+        .quiz-settings {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        
+        .categories-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .search-tips {
+            grid-template-columns: 1fr;
+        }
+        
+        .topic-tag {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .search-suggestions {
+            width: calc(100% - 2rem);
+        }
+        
+        .animated-character {
+            transform: scale(0.7);
+            bottom: 10px;
+            right: 10px;
+        }
+        
+        .speech-bubble {
+            white-space: normal;
+            max-width: 180px;
+            font-size: 0.8rem;
+            padding: 8px 12px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .search-title {
+            font-size: 1.6rem;
+        }
+        
+        .search-input-enhanced {
+            padding: 1rem 2.5rem 1rem 1.2rem;
+            font-size: 1rem;
+        }
+        
+        .category-topics {
+            justify-content: center;
+        }
+    }
+</style>
 
-    // Search suggestions
+<script>
+    // ============================================
+    // COMPLETE JAVASCRIPT FOR SEARCH PAGE
+    // ============================================
+    
+    // Popular search suggestions
     const suggestions = [
         'Machine Learning', 'Artificial Intelligence', 'Deep Learning', 'Neural Networks',
         'Python Programming', 'JavaScript', 'React Framework', 'Django Web Framework',
@@ -166,318 +820,292 @@
         'World History', 'Ancient Civilizations', 'World War II', 'Cold War',
         'Data Science', 'Big Data Analytics', 'Data Visualization', 'Statistics',
         'Cybersecurity', 'Ethical Hacking', 'Network Security', 'Cryptography',
-        'Web Development', 'Mobile Development', 'Cloud Computing', 'DevOps'
+        'Web Development', 'Mobile Development', 'Cloud Computing', 'DevOps',
+        'Quantum Computing', 'Blockchain', 'Cryptocurrency', 'NFTs',
+        'Photosynthesis', 'Human Anatomy', 'Genetics', 'Evolution',
+        'Shakespeare', 'Greek Mythology', 'Renaissance Art', 'Modern Philosophy'
     ];
     
+    // DOM Elements
     const searchInput = document.getElementById('topic-search');
     const suggestionsDiv = document.getElementById('suggestions');
-    let currentSuggestions = [];
+    const searchForm = document.getElementById('searchForm');
     
-    searchInput.addEventListener('input', function() {
-        const value = this.value.toLowerCase();
+    // Load popular topics on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        loadPopularTopics();
+        setupEventListeners();
+        animateElements();
+    });
+    
+    function setupEventListeners() {
+        // Search input handler
+        searchInput.addEventListener('input', handleSearchInput);
+        
+        // Close suggestions on click outside
+        document.addEventListener('click', function(e) {
+            if (!searchInput.contains(e.target) && !suggestionsDiv.contains(e.target)) {
+                suggestionsDiv.style.display = 'none';
+            }
+        });
+        
+        // Focus handler
+        searchInput.addEventListener('focus', function() {
+            if (this.value.length >= 2) {
+                handleSearchInput();
+            }
+        });
+        
+        // Form validation
+        searchForm.addEventListener('submit', function(e) {
+            const topic = searchInput.value.trim();
+            if (!topic) {
+                e.preventDefault();
+                showError('Please enter a topic!');
+            } else if (topic.length < 2) {
+                e.preventDefault();
+                showError('Topic must be at least 2 characters!');
+            }
+        });
+        
+        // Keyboard navigation for suggestions
+        searchInput.addEventListener('keydown', handleSuggestionKeyboard);
+    }
+    
+    function loadPopularTopics() {
+        fetch('/popular_topics')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(topics => {
+                const container = document.getElementById('topics-cloud');
+                if (topics && topics.length > 0) {
+                    container.innerHTML = topics.map(topic => `
+                        <span class="topic-tag" onclick="selectTopic('${escapeHtml(topic.topic_name)}')">
+                            🔥 ${escapeHtml(topic.topic_name)} 
+                            <span style="opacity: 0.7; font-size: 0.8rem;">(${topic.search_count})</span>
+                        </span>
+                    `).join('');
+                } else {
+                    showDefaultTopics();
+                }
+            })
+            .catch(error => {
+                console.error('Error loading popular topics:', error);
+                showDefaultTopics();
+            });
+    }
+    
+    function showDefaultTopics() {
+        const container = document.getElementById('topics-cloud');
+        const defaultTopics = [
+            { name: 'Python Programming', icon: '🐍' },
+            { name: 'Machine Learning', icon: '🤖' },
+            { name: 'World History', icon: '🌍' },
+            { name: 'Climate Change', icon: '🌡️' },
+            { name: 'Space Exploration', icon: '🚀' },
+            { name: 'Data Science', icon: '📊' },
+            { name: 'Artificial Intelligence', icon: '🧠' },
+            { name: 'Cybersecurity', icon: '🔒' }
+        ];
+        
+        container.innerHTML = defaultTopics.map(topic => `
+            <span class="topic-tag" onclick="selectTopic('${escapeHtml(topic.name)}')">
+                ${topic.icon} ${escapeHtml(topic.name)}
+            </span>
+        `).join('');
+    }
+    
+    function handleSearchInput() {
+        const value = searchInput.value.toLowerCase().trim();
+        
         if (value.length < 2) {
             suggestionsDiv.style.display = 'none';
             return;
         }
         
-        const matches = suggestions.filter(s => s.toLowerCase().includes(value)).slice(0, 8);
+        // Filter suggestions
+        const matches = suggestions
+            .filter(s => s.toLowerCase().includes(value))
+            .slice(0, 8);
         
         if (matches.length > 0) {
             suggestionsDiv.innerHTML = matches.map(match => `
                 <div class="suggestion-item" onclick="selectTopic('${escapeHtml(match)}')">
-                    🔍 ${escapeHtml(match)}
+                    <span class="suggestion-icon">🔍</span>
+                    ${escapeHtml(match)}
                 </div>
             `).join('');
             suggestionsDiv.style.display = 'block';
         } else {
-            suggestionsDiv.style.display = 'none';
+            suggestionsDiv.innerHTML = `
+                <div class="suggestion-item" style="cursor: default; opacity: 0.7;">
+                    <span class="suggestion-icon">📝</span>
+                    No suggestions found. Try a different keyword!
+                </div>
+            `;
+            suggestionsDiv.style.display = 'block';
         }
-    });
+    }
     
-    document.addEventListener('click', function(e) {
-        if (!searchInput.contains(e.target)) {
+    let selectedSuggestionIndex = -1;
+    
+    function handleSuggestionKeyboard(e) {
+        const items = suggestionsDiv.querySelectorAll('.suggestion-item');
+        
+        if (items.length === 0) return;
+        
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            selectedSuggestionIndex = Math.min(selectedSuggestionIndex + 1, items.length - 1);
+            updateSuggestionSelection(items);
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            selectedSuggestionIndex = Math.max(selectedSuggestionIndex - 1, -1);
+            updateSuggestionSelection(items);
+        } else if (e.key === 'Enter' && selectedSuggestionIndex >= 0) {
+            e.preventDefault();
+            items[selectedSuggestionIndex].click();
+        } else if (e.key === 'Escape') {
             suggestionsDiv.style.display = 'none';
+            selectedSuggestionIndex = -1;
         }
-    });
+    }
+    
+    function updateSuggestionSelection(items) {
+        items.forEach((item, index) => {
+            if (index === selectedSuggestionIndex) {
+                item.style.background = 'linear-gradient(135deg, #667eea10, #764ba210)';
+                item.style.borderLeft = '3px solid #667eea';
+            } else {
+                item.style.background = '';
+                item.style.borderLeft = '';
+            }
+        });
+    }
     
     function selectTopic(topic) {
         searchInput.value = topic;
         suggestionsDiv.style.display = 'none';
-        // Auto-submit
-        searchInput.closest('form').submit();
+        
+        // Animate the selection
+        searchInput.style.transform = 'scale(1.02)';
+        setTimeout(() => {
+            searchInput.style.transform = '';
+        }, 200);
+        
+        // Auto-submit after short delay
+        setTimeout(() => {
+            searchForm.submit();
+        }, 300);
+    }
+    
+    function showError(message) {
+        // Create error toast
+        const toast = document.createElement('div');
+        toast.className = 'error-toast';
+        toast.innerHTML = `
+            <span>⚠️</span>
+            <span>${escapeHtml(message)}</span>
+        `;
+        toast.style.cssText = `
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: #f8d7da;
+            color: #721c24;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            animation: slideIn 0.3s ease;
+            border-left: 4px solid #dc3545;
+        `;
+        
+        document.body.appendChild(toast);
+        
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateX(100%)';
+            toast.style.transition = 'all 0.3s';
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
+    
+    function animateElements() {
+        // Animate category cards on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        document.querySelectorAll('.category-card').forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'all 0.5s ease';
+            card.style.transitionDelay = `${index * 0.1}s`;
+            observer.observe(card);
+        });
+        
+        // Animate tip cards
+        document.querySelectorAll('.tip-card').forEach((tip, index) => {
+            tip.style.opacity = '0';
+            tip.style.transform = 'translateX(-20px)';
+            tip.style.transition = 'all 0.5s ease';
+            tip.style.transitionDelay = `${index * 0.1 + 0.3}s`;
+            setTimeout(() => {
+                tip.style.opacity = '1';
+                tip.style.transform = 'translateX(0)';
+            }, 100);
+        });
     }
     
     function escapeHtml(text) {
+        if (!text) return '';
         const div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
     }
     
-    // Category topic clicks
-    document.querySelectorAll('.category-topics span').forEach(span => {
-        span.addEventListener('click', () => selectTopic(span.textContent));
-    });
-    
-    // Animate on load
-    document.addEventListener('DOMContentLoaded', () => {
-        document.querySelectorAll('.category').forEach((cat, i) => {
-            cat.style.opacity = '0';
-            cat.style.transform = 'translateY(20px)';
-            setTimeout(() => {
-                cat.style.transition = 'all 0.5s ease';
-                cat.style.opacity = '1';
-                cat.style.transform = 'translateY(0)';
-            }, i * 100);
+    // Character interaction
+    const character = document.querySelector('.character-search');
+    if (character) {
+        character.addEventListener('click', function() {
+            const bubble = this.querySelector('.speech-bubble');
+            const messages = [
+                'Try searching for a topic! 🔍',
+                'Choose your difficulty! 🎯',
+                'More questions = More XP! ⭐',
+                'Ready to learn? 📚',
+                'You can do it! 💪'
+            ];
+            bubble.textContent = messages[Math.floor(Math.random() * messages.length)];
         });
-    });
+    }
+    
+    // Update character message periodically
+    setInterval(() => {
+        const bubble = document.querySelector('.speech-bubble');
+        if (bubble && Math.random() < 0.3) {
+            const messages = [
+                'Search any topic! 📚',
+                'Try Machine Learning! 🤖',
+                'Challenge yourself! 🎯',
+                'Learn something new! 🌟'
+            ];
+            bubble.textContent = messages[Math.floor(Math.random() * messages.length)];
+        }
+    }, 5000);
 </script>
-
-<style>
-    .search-container-enhanced {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 3rem 2rem;
-        min-height: 80vh;
-    }
-    
-    .search-hero {
-        text-align: center;
-        margin-bottom: 3rem;
-    }
-    
-    .search-icon {
-        font-size: 4rem;
-        margin-bottom: 1rem;
-        animation: bounce 2s infinite;
-    }
-    
-    .search-title {
-        font-size: 2.5rem;
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        margin-bottom: 0.5rem;
-    }
-    
-    .search-subtitle {
-        color: #666;
-        margin-bottom: 2rem;
-    }
-    
-    .search-form {
-        max-width: 600px;
-        margin: 0 auto;
-    }
-    
-    .search-input-wrapper {
-        display: flex;
-        gap: 1rem;
-        background: white;
-        padding: 0.5rem;
-        border-radius: 60px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    }
-    
-    .search-input-enhanced {
-        flex: 1;
-        padding: 1rem 1.5rem;
-        border: none;
-        border-radius: 60px;
-        font-size: 1rem;
-        outline: none;
-    }
-    
-    .search-button {
-        padding: 0.8rem 2rem;
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        color: white;
-        border: none;
-        border-radius: 60px;
-        cursor: pointer;
-        font-weight: bold;
-        transition: all 0.3s;
-    }
-    
-    .search-button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(102,126,234,0.4);
-    }
-    
-    .search-suggestions {
-        max-width: 600px;
-        margin: 0.5rem auto;
-        background: white;
-        border-radius: 10px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        display: none;
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        width: calc(100% - 4rem);
-        z-index: 100;
-    }
-    
-    .suggestion-item {
-        padding: 0.8rem 1rem;
-        cursor: pointer;
-        transition: background 0.3s;
-    }
-    
-    .suggestion-item:hover {
-        background: #f0f0f0;
-    }
-    
-    .popular-topics-enhanced {
-        margin-bottom: 3rem;
-    }
-    
-    .popular-topics-enhanced h3 {
-        text-align: center;
-        margin-bottom: 1.5rem;
-    }
-    
-    .topics-cloud {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.8rem;
-        justify-content: center;
-    }
-    
-    .topic-tag {
-        padding: 0.5rem 1.2rem;
-        background: white;
-        border-radius: 30px;
-        cursor: pointer;
-        transition: all 0.3s;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-    
-    .topic-tag:hover {
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        color: white;
-        transform: translateY(-2px);
-    }
-    
-    .topic-categories {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 1.5rem;
-        margin-bottom: 3rem;
-    }
-    
-    .category {
-        background: white;
-        padding: 1.5rem;
-        border-radius: 20px;
-        text-align: center;
-        transition: all 0.3s;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-    }
-    
-    .category:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    }
-    
-    .category-icon {
-        font-size: 2.5rem;
-        margin-bottom: 0.5rem;
-    }
-    
-    .category h4 {
-        margin-bottom: 1rem;
-        color: #667eea;
-    }
-    
-    .category-topics {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        justify-content: center;
-    }
-    
-    .category-topics span {
-        padding: 0.3rem 0.8rem;
-        background: #f8f9fa;
-        border-radius: 20px;
-        font-size: 0.85rem;
-        cursor: pointer;
-        transition: all 0.3s;
-    }
-    
-    .category-topics span:hover {
-        background: #667eea;
-        color: white;
-    }
-    
-    .search-tips {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1rem;
-    }
-    
-    .tip {
-        background: linear-gradient(135deg, #667eea10, #764ba210);
-        padding: 1rem;
-        border-radius: 15px;
-        display: flex;
-        align-items: center;
-        gap: 0.8rem;
-    }
-    
-    .tip-icon {
-        font-size: 1.5rem;
-    }
-    
-    .tip-text {
-        font-size: 0.9rem;
-        color: #555;
-    }
-    
-    .loading-spinner {
-        text-align: center;
-        padding: 1rem;
-        color: #666;
-    }
-    
-    .info-message {
-        text-align: center;
-        padding: 1rem;
-        color: #999;
-    }
-    
-    .character-search {
-        bottom: 20px;
-        right: 20px;
-    }
-    
-    @media (max-width: 768px) {
-        .search-container-enhanced {
-            padding: 2rem 1rem;
-        }
-        
-        .search-title {
-            font-size: 1.8rem;
-        }
-        
-        .search-input-wrapper {
-            flex-direction: column;
-            border-radius: 20px;
-            padding: 1rem;
-        }
-        
-        .search-button {
-            padding: 0.8rem;
-        }
-        
-        .topic-categories {
-            grid-template-columns: 1fr;
-        }
-        
-        .search-suggestions {
-            width: calc(100% - 2rem);
-        }
-    }
-</style>
 {% endblock %}
