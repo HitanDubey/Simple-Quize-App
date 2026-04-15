@@ -7,9 +7,11 @@
     <div class="result-card-enhanced">
         <!-- Header Section -->
         <div class="result-header">
-            <div class="result-icon">{{ '🎉' if (score/(total*10))*100 >= 70 else '📚' if (score/(total*10))*100 >= 40 else '💪' }}</div>
+            <div class="result-icon">
+                {% set percentage = (score/(total*10))*100 if total > 0 else 0 %}
+                {{ '🎉' if percentage >= 70 else '📚' if percentage >= 40 else '💪' }}
+            </div>
             <h1 class="result-title">
-                {% set percentage = (score/(total*10))*100 %}
                 {% if percentage >= 80 %}Perfect Score! 🏆
                 {% elif percentage >= 60 %}Great Job! 🌟
                 {% elif percentage >= 40 %}Good Effort! 📈
@@ -45,17 +47,17 @@
         <div class="result-stats-grid">
             <div class="result-stat">
                 <div class="stat-icon">✅</div>
-                <div class="stat-value">{{ (score/10)|round(0)|int }}</div>
+                <div class="stat-value">{{ (score/10)|round(0)|int if total > 0 else 0 }}</div>
                 <div class="stat-label">Correct Answers</div>
             </div>
             <div class="result-stat">
                 <div class="stat-icon">❌</div>
-                <div class="stat-value">{{ total - (score/10)|round(0)|int }}</div>
+                <div class="stat-value">{{ total - ((score/10)|round(0)|int) if total > 0 else 0 }}</div>
                 <div class="stat-label">Wrong Answers</div>
             </div>
             <div class="result-stat">
                 <div class="stat-icon">⚡</div>
-                <div class="stat-value">{{ (score/10)|round(0)|int * 10 }}</div>
+                <div class="stat-value">{{ score }}</div>
                 <div class="stat-label">Points Earned</div>
             </div>
             <div class="result-stat">
@@ -109,13 +111,6 @@
                     <span class="breakdown-value">{{ "%.1f"|format(percentage) }}%</span>
                 </div>
                 <div class="breakdown-item">
-                    <span class="breakdown-label">Speed Bonus</span>
-                    <div class="breakdown-bar-bg">
-                        <div class="breakdown-bar-fill" style="width: {{ (score % 10) * 10 }}%"></div>
-                    </div>
-                    <span class="breakdown-value">{{ score % 10 }}/10</span>
-                </div>
-                <div class="breakdown-item">
                     <span class="breakdown-label">Completion</span>
                     <div class="breakdown-bar-bg">
                         <div class="breakdown-bar-fill" style="width: 100%"></div>
@@ -141,28 +136,22 @@
                     <div class="badge-name">High Scorer</div>
                 </div>
                 {% endif %}
-                {% if (score/10)|round(0)|int >= 15 %}
+                {% if (score/10)|round(0)|int >= 15 and total > 0 %}
                 <div class="badge" title="Accuracy Expert">
                     <div class="badge-icon">🎯</div>
                     <div class="badge-name">Accurate</div>
-                </div>
-                {% endif %}
-                {% if total >= 20 %}
-                <div class="badge" title="Completed">
-                    <div class="badge-icon">✅</div>
-                    <div class="badge-name">Finisher</div>
-                </div>
-                {% endif %}
-                {% if percentage < 50 %}
-                <div class="badge" title="Dedicated Learner">
-                    <div class="badge-icon">🌱</div>
-                    <div class="badge-name">Learner</div>
                 </div>
                 {% endif %}
                 <div class="badge" title="Quiz Taker">
                     <div class="badge-icon">📚</div>
                     <div class="badge-name">Participant</div>
                 </div>
+                {% if percentage < 50 %}
+                <div class="badge" title="Dedicated Learner">
+                    <div class="badge-icon">🌱</div>
+                    <div class="badge-name">Learner</div>
+                </div>
+                {% endif %}
             </div>
         </div>
 
@@ -173,7 +162,7 @@
                 <div class="xp-title">XP Earned</div>
                 <div class="xp-value">+{{ score }}</div>
                 <div class="xp-progress">
-                    <div class="xp-progress-bar" style="width: {{ (score % 100) }}%"></div>
+                    <div class="xp-progress-bar" style="width: {{ (score % 100) if score > 0 else 0 }}%"></div>
                 </div>
                 <div class="xp-message">
                     {% if score >= 150 %}Level Up! 🎉
@@ -229,8 +218,16 @@
 </div>
 
 <script>
+    // Pass variables from Jinja to JavaScript safely
+    const quizScore = {{ score }};
+    const quizTotal = {{ total }};
+    const quizPercentage = {{ percentage }};
+    const quizTopic = "{{ topic }}";
+    
     function shareResult(platform) {
-        const text = `I scored ${{{ score }}}/{{ total * 10 }} ({{ "%.1f"|format((score/(total*10))*100) }}%) on ${window.location.origin} EchoQuest Pro! Can you beat my score? 🎯`;
+        const maxScore = quizTotal * 10;
+        const percentText = quizPercentage.toFixed(1);
+        const text = `I scored ${quizScore}/${maxScore} (${percentText}%) on EchoQuest Pro! Can you beat my score? 🎯`;
         const url = window.location.origin + '/leaderboard';
         
         if (platform === 'twitter') {
@@ -241,9 +238,13 @@
     }
     
     function copyResult() {
-        const text = `I scored ${ {{ score }} }/${ {{ total * 10 }} } on EchoQuest Pro! Check it out: ${window.location.origin}`;
-        navigator.clipboard.writeText(text);
-        alert('Result copied to clipboard! 📋');
+        const maxScore = quizTotal * 10;
+        const text = `I scored ${quizScore}/${maxScore} on EchoQuest Pro! Check it out: ${window.location.origin}`;
+        navigator.clipboard.writeText(text).then(() => {
+            alert('Result copied to clipboard! 📋');
+        }).catch(() => {
+            alert('Failed to copy. Please try again.');
+        });
     }
     
     // Animate on load
@@ -272,11 +273,11 @@
         });
         
         // Confetti for good scores
-        {% if percentage >= 70 %}
-        for (let i = 0; i < 50; i++) {
-            setTimeout(() => createConfetti(), i * 50);
+        if (quizPercentage >= 70) {
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => createConfetti(), i * 50);
+            }
         }
-        {% endif %}
     });
     
     function createConfetti() {
@@ -287,12 +288,17 @@
         confetti.style.width = Math.random() * 10 + 5 + 'px';
         confetti.style.height = Math.random() * 10 + 5 + 'px';
         confetti.style.animationDelay = Math.random() * 2 + 's';
+        confetti.style.position = 'fixed';
+        confetti.style.top = '-10px';
+        confetti.style.pointerEvents = 'none';
+        confetti.style.zIndex = '9999';
         document.body.appendChild(confetti);
         setTimeout(() => confetti.remove(), 3000);
     }
 </script>
 
 <style>
+    /* Result Page Styles */
     .result-container-enhanced {
         min-height: 80vh;
         display: flex;
@@ -635,6 +641,17 @@
     .result-character {
         bottom: 20px;
         right: 20px;
+    }
+    
+    .confetti {
+        animation: confetti-fall 3s linear forwards;
+    }
+    
+    @keyframes confetti-fall {
+        to {
+            transform: translateY(100vh) rotate(360deg);
+            opacity: 0;
+        }
     }
     
     @keyframes slideIn {
